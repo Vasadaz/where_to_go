@@ -3,10 +3,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from project import views
+from places.views import show_home
 
 urlpatterns = [
-    path('', views.show_home),
+    path('', show_home),
     path('admin/', admin.site.urls),
 ]
 
