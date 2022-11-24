@@ -130,3 +130,6 @@ dmypy.json
 
 # IDEA
 .idea/
+
+#where_to_go ignore
+media/
