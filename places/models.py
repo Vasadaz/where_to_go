@@ -13,7 +13,7 @@ class Place(models.Model):
         verbose_name_plural = 'places'
 
     def __str__(self):
-        return f'{self.title})'
+        return f'{self.title}'
 
 
 class Image(models.Model):
@@ -30,4 +30,4 @@ class Image(models.Model):
         verbose_name_plural = 'images'
 
     def __str__(self):
-        return f'{self.title})'
+        return f'{self.title}'
