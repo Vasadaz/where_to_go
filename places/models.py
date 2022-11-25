@@ -24,3 +24,10 @@ class Image(models.Model):
         null=True,
         upload_to='images',
     )
+
+    class Meta:
+        verbose_name = 'image'
+        verbose_name_plural = 'images'
+
+    def __str__(self):
+        return f'{self.title})'
