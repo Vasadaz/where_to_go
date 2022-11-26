@@ -8,6 +8,6 @@ from places.views import index, places
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
-    path('places/<int:id>/', places),
+    path('places/<int:place_id>/', places),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
