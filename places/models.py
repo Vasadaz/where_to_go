@@ -18,7 +18,10 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    title = models.CharField(max_length=200)
+    position = models.IntegerField(
+        blank=True,
+        null=True,
+    )
     image = models.ImageField(
         blank=True,
         null=True,
@@ -37,4 +40,4 @@ class Image(models.Model):
         verbose_name_plural = 'images'
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.place} {self.position} '

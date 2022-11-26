@@ -36,7 +36,7 @@ def index(request):
 
 def places(request, place_id):
     place = get_object_or_404(Place, id=place_id)
-    place_images = Image.objects.filter(title__contains=place.title)
+    place_images = place.images.all().order_by('position')
 
     place_serialize = {
         'title': place.title,

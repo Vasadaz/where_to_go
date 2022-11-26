@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+
 from places.models import Place, Image
 
 
@@ -16,6 +18,18 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
+    fields = [
+        'image',
+        'preview',
+        'position',
+    ]
     list_display = (
-        'title',
+        'place',
+        'position',
+        'image',
     )
+    readonly_fields = ['preview']
+
+    @admin.display()
+    def preview(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">')
