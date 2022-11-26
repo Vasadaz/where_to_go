@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-
+from django.urls import reverse
 
 from places.models import Image, Place
 
@@ -24,7 +24,7 @@ def index(request):
             'properties': {
                 'title': place.title,
                 'placeId': place.place_id,
-                'detailsUrl': place.details_url,
+                'detailsUrl': reverse('places', kwargs={'place_id': place.id}),
             }
         }
 
