@@ -4,9 +4,13 @@ from django.db import models
 class Place(models.Model):
     title = models.CharField(max_length=200)
     place_id = models.CharField(max_length=50, blank=True)
+    description_short = models.CharField(max_length=500, blank=True)
+    description_long = models.TextField(blank=True)
+    details_url = models.CharField(max_length=50, default='path')
     latitude = models.FloatField(default=0.0)  # Широта
     longitude = models.FloatField(default=0.0)  # Долгота
-    details_url = models.CharField(max_length=50, default='path')
+
+
 
     class Meta:
         verbose_name = 'place'
