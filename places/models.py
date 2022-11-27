@@ -18,24 +18,21 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    position = models.IntegerField(
-        blank=True,
-        null=True,
+    position = models.PositiveSmallIntegerField(
+        default=0,
+        db_index=True,
     )
     image = models.ImageField(
-        blank=True,
-        null=True,
         upload_to='images',
     )
     place = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
         related_name='images',
-        blank=True,
-        null=True,
     )
 
     class Meta:
+        ordering = ['position']
         verbose_name = 'image'
         verbose_name_plural = 'images'
 
