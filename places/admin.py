@@ -6,6 +6,16 @@ from places.models import Place, Image
 
 class ImageInline(admin.TabularInline):
     model = Image
+    fields = [
+        'image',
+        'preview',
+        'position',
+    ]
+    readonly_fields = ['preview']
+
+    @admin.display()
+    def preview(self, obj):
+        return preview(obj)
 
 
 @admin.register(Place)
@@ -32,4 +42,8 @@ class ImageAdmin(admin.ModelAdmin):
 
     @admin.display()
     def preview(self, obj):
-        return mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">')
+        return preview(obj)
+
+
+def preview(obj):
+    return mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">')
