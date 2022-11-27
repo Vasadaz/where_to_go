@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from places.models import Image, Place
+from places.models import Place
 
 
 def index(request):
