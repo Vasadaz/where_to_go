@@ -31,9 +31,10 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     fields = [
+        'place',
+        'position',
         'image',
         'preview',
-        'position',
     ]
     list_display = (
         'position',
