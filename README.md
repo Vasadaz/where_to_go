@@ -11,7 +11,7 @@
 1. Клонировать репозиторий:
 
     ```shell
-    git clone https://github.com/HardRope/food_bot.git
+    git clone https://github.com/Vasdaz/where_to_go.git
     ```
 
 2. Установить зависимости:
@@ -68,7 +68,7 @@
     python3 manage.py createsuperuser
     ```
 
-7. Выполнить загрузку мест в БД вручную или  из JSON-файла:
+7. Выполнить загрузку мест в БД вручную или из JSON-файла:
    - Для внесения данных вручную выполните команду и перейдите на административную панель Django: 
        ```shell
        python3 manage.py runserver
@@ -94,16 +94,10 @@
        ```shell 
        python3 manage.py load_place  http://site/places/example.json
        ```
+       Изображения сохраняются в `media/images`.
    
-       Если файлов много, то укажите каталог:
-       ```shell 
-       python3 manage.py load_place  http://site/places
-       ```
    
-       Все JSON-файлы сохраняются в `static/places`.
-       Изображения мест сохраняются в `media/images`.
-   
-8. Запуск сайта с геолокациями мест:
+8. Запуск сайта:
     
     ```shell
     python3 manage.py runserver
