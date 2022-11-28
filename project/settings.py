@@ -59,10 +59,7 @@ ROOT_URLCONF = 'project.urls'
 
 TEMPLATE_DIR = BASE_DIR / 'templates'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-STATIC_ROOT = ''
+STATIC_ROOT = BASE_DIR / 'static'
 
 TEMPLATES = [
     {
