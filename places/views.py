@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -6,40 +6,44 @@ from django.urls import reverse
 from places.models import Place
 
 
-def index(request):
+def index(request) -> HttpResponse:
     places = Place.objects.all()
     
-    geojson_places = {
+    geopoints = {
         'type': 'FeatureCollection',
         'features': [],
     }
 
     for place in places:
-        place_serialize = {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [place.longitude, place.latitude],
-            },
-            'properties': {
-                'title': place.title,
-                'detailsUrl': reverse('places', kwargs={'place_id': place.id}),
-            }
-        }
+        geopoint = make_geopoint_notes(place)
+        geopoints['features'].append(geopoint)
 
-        geojson_places['features'].append(place_serialize)
-
-    context = {'places': geojson_places}
+    context = {'places': geopoints}
     return render(request, 'index.html', context=context)
 
 
-def places(request, place_id):
+def make_geopoint_notes(place: Place) -> dict:
+    geopoint_notes = {
+        'type': 'Feature',
+        'geometry': {
+            'type': 'Point',
+            'coordinates': [place.longitude, place.latitude],
+        },
+        'properties': {
+            'title': place.title,
+            'detailsUrl': reverse('places', kwargs={'place_id': place.id}),
+        }
+    }
+
+    return geopoint_notes
+
+
+def places(request, place_id: int) -> JsonResponse:
     place = get_object_or_404(Place, id=place_id)
-    place_images = place.images.all().order_by('position')
 
     place_serialize = {
         'title': place.title,
-        'imgs': [image.image.url for image in place_images],
+        'imgs': [image.image.url for image in place.images.all()],
         'description_short': place.description_short,
         'description_long': place.description_long,
         'coordinates': {
