@@ -8,18 +8,17 @@ class Place(models.Model):
         max_length=200,
         unique=True,
     )
-    place_id = models.CharField(max_length=50, default='place_id')
-    description_short = models.TextField(max_length=500)
-    description_long = HTMLField()
-    latitude = models.FloatField(default=0.0)  # Широта
-    longitude = models.FloatField(default=0.0)  # Долгота
+    description_short = models.TextField(blank=True)
+    description_long = HTMLField(blank=True)
+    latitude = models.FloatField()  # Широта
+    longitude = models.FloatField()  # Долгота
 
     class Meta:
         verbose_name = 'place'
         verbose_name_plural = 'places'
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
 
 class Image(models.Model):

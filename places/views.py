@@ -23,7 +23,6 @@ def index(request):
             },
             'properties': {
                 'title': place.title,
-                'placeId': place.place_id,
                 'detailsUrl': reverse('places', kwargs={'place_id': place.id}),
             }
         }
