@@ -29,47 +29,19 @@
     SECRET_KEY=you_secret_key
     ```
 
-4. Если вы хотите использовать MySQL, тогда:
-
-   - в файл `.env` добавить: 
-
-      ```dotenv
-      MYSQL_DB_NAME=mysql_db_name
-      MYSQL_USER=mysql_user
-      MYSQL_USER_PASSWORD=mysql_user_password
-      MYSQL_HOST=mysql_db_host
-      MYSQL_PORT=mysql_db_port
-      ```
-
-   - в файл `food_bot/settings.py` внести настройки для подключения к MySQL:
-
-       ```python
-       DATABASES = {
-           'default': {
-               'ENGINE': 'django.db.backends.mysql',
-               'NAME': env.str('MYSQL_DB_NAME'),
-               'HOST': env.str('MYSQL_HOST'),
-               'PORT': env.str('MYSQL_PORT'),
-               'USER': env.str('MYSQL_USER'),
-               'PASSWORD': env.str('MYSQL_USER_PASSWORD'),
-           }
-       }
-       ```
-
-5. Сделать миграции:
+4. Применить миграции:
 
     ```shell
-    python3 manage.py makemigrations
     python3 manage.py migrate
     ```
 
-6. Создать супер-пользователя для доступа к административной панели Django:
+5. Создать супер-пользователя для доступа к административной панели Django:
 
     ```shell
     python3 manage.py createsuperuser
     ```
 
-7. Выполнить загрузку мест в БД вручную или из JSON-файла:
+6. Выполнить загрузку мест в БД вручную или из JSON-файла:
    - Для внесения данных вручную выполните команду и перейдите на административную панель Django: 
        ```shell
        python3 manage.py runserver
@@ -98,7 +70,7 @@
        Изображения сохраняются в `media/images`.
    
    
-8. Запуск сайта:
+7. Запуск сайта:
     
     ```shell
     python3 manage.py runserver
