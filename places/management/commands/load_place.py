@@ -11,7 +11,10 @@ class Command(BaseCommand):
     help = 'Start adding places'
 
     def handle(self, *args, **options):
-        main(options['url'])
+        response = requests.get(options['url'])
+        response.raise_for_status()
+        place_notes = response.json()
+        self.add_place(place_notes)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -20,41 +23,47 @@ class Command(BaseCommand):
             type=str,
         )
 
+    @staticmethod
+    def add_images(place: Place, image_urls: list):
+        for num, image_url in enumerate(image_urls, 1):
+            image = Image(
+                position=num,
+                place=place,
+            )
 
-def add_images(place: Place, image_urls: list):
-    for num, image_url in enumerate(image_urls, 1):
-        image = Image(
-            position=num,
-            place=place,
+            response = requests.get(image_url)
+            response.raise_for_status()
+
+            image.image.save(
+                name=Path(image_url).name,
+                content=ContentFile(response.content),
+                save=True
+            )
+
+    def add_place(self, place_notes: dict):
+        title = place_notes.get('title')
+        latitude = place_notes.get('coordinates').get('lat')
+        longitude = place_notes.get('coordinates').get('lng')
+
+        if not title or not longitude or not longitude:
+            return self.stdout.write('\033[91mERROR:\033[0m No required key "title", "longitude" or "longitude".\n')
+
+        place, created = Place.objects.get_or_create(
+            title=title,
+            latitude=latitude,
+            longitude=longitude,
         )
 
-        response = requests.get(image_url)
-        response.raise_for_status()
+        if created:
+            place.description_short = place_notes.get('description_short')
+            place.description_long = place_notes.get('description_long')
+            place.save()
 
-        content = ContentFile(response.content)
-        image_name = Path(image_url).name
+            imgs = place_notes.get('imgs')
 
-        image.image.save(image_name, content, save=True)
+            if imgs:
+                self.add_images(place, imgs)
 
-
-def add_place(place_notes: dict):
-    place, created = Place.objects.get_or_create(
-        title=place_notes['title'],
-        description_short=place_notes['description_short'],
-        description_long=place_notes['description_long'],
-        latitude=place_notes['coordinates']['lat'],
-        longitude=place_notes['coordinates']['lng'],
-    )
-
-    if created:
-        add_images(place, place_notes['imgs'])
-        print(f'Added place "{place}".')
-    else:
-        print(f'\033[93mDOUBLE:\033[0m place "{place}" already exists!')
-
-
-def main(url: str):
-    response = requests.get(url)
-    response.raise_for_status()
-    place_notes = response.json()
-    add_place(place_notes)
+            self.stdout.write(f'Added place "{place}".')
+        else:
+            self.stdout.write(f'\033[93mDOUBLE:\033[0m place "{place}" already exists!')
