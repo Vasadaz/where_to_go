@@ -133,3 +133,4 @@ dmypy.json
 
 #where_to_go ignore
 media/
+collected_static/
