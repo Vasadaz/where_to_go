@@ -7,18 +7,12 @@ from places.models import Place
 
 
 def index(request) -> HttpResponse:
-    places = Place.objects.all()
-    
     geopoints = {
         'type': 'FeatureCollection',
-        'features': [],
+        'features': [make_geopoint_notes(place) for place in Place.objects.all()],
     }
-
-    for place in places:
-        geopoint = make_geopoint_notes(place)
-        geopoints['features'].append(geopoint)
-
     context = {'places': geopoints}
+
     return render(request, 'index.html', context=context)
 
 
