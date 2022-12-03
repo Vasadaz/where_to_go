@@ -5,19 +5,20 @@ from django.utils.safestring import mark_safe
 from places.models import Place, Image
 
 
+@admin.display()
+def preview(place: Place):
+    return mark_safe(f'<img src="{place.image.url}" style="max-height: 200px;">')
+
+
 class ImageInline(SortableTabularInline):
     extra = 1
     model = Image
     fields = [
         'image',
-        'preview',
+        preview,
         'position',
     ]
-    readonly_fields = ['preview']
-
-    @admin.display()
-    def preview(self, obj):
-        return preview(obj)
+    readonly_fields = [preview]
 
 
 @admin.register(Place)
@@ -34,19 +35,11 @@ class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
         'place',
         'position',
         'image',
-        'preview',
+        preview,
     ]
     list_display = (
         'position',
         'place',
-        'preview',
+        preview,
     )
-    readonly_fields = ['preview']
-
-    @admin.display()
-    def preview(self, obj):
-        return preview(obj)
-
-
-def preview(obj):
-    return mark_safe(f'<img src="{obj.image.url}" style="max-height: 100px;">')
+    readonly_fields = [preview]
