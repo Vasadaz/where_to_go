@@ -6,15 +6,15 @@ from places.models import Place, Image
 
 
 @admin.display()
-def preview(place: Place):
-    return mark_safe(f'<img src="{place.image.url}" style="max-height: 200px;">')
+def preview(image: Image):
+    return mark_safe(f'<img src="{image.file.url}" style="max-height: 200px;">')
 
 
 class ImageInline(SortableTabularInline):
     extra = 1
     model = Image
     fields = [
-        'image',
+        'file',
         preview,
         'position',
     ]
@@ -34,7 +34,7 @@ class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     fields = [
         'place',
         'position',
-        'image',
+        'file',
         preview,
     ]
     list_display = (

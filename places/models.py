@@ -26,7 +26,7 @@ class Image(models.Model):
         default=0,
         db_index=True,
     )
-    image = models.ImageField(
+    file = models.ImageField(
         upload_to='images',
     )
     place = models.ForeignKey(

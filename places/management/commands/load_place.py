@@ -34,7 +34,7 @@ class Command(BaseCommand):
             response = requests.get(image_url)
             response.raise_for_status()
 
-            image.image.save(
+            image.file.save(
                 name=Path(image_url).name,
                 content=ContentFile(response.content),
                 save=True

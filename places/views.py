@@ -37,7 +37,7 @@ def places(request, place_id: int) -> JsonResponse:
 
     place_serialize = {
         'title': place.title,
-        'imgs': [image.image.url for image in place.images.all()],
+        'imgs': [image.file.url for image in place.images.all()],
         'description_short': place.description_short,
         'description_long': place.description_long,
         'coordinates': {
