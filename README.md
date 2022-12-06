@@ -5,7 +5,7 @@
 [Посмотреть пример проекта](http://vasadaz.pythonanywhere.com).
 
 Дополнительные возможности:
-- load_place загрузку мест в БД  из JSON-файла
+- load_place загрузку мест в БД  из [JSON-файла](https://github.com/devmanorg/where-to-go-places/tree/master/places)
 
 ## Как установить
 
@@ -75,3 +75,7 @@
     ```shell
     python3 manage.py runserver
     ```
+   
+### Цель проекта
+
+Код написан в образовательных целях на онлайн-курсе для веб-разработчиков [dvmn.org](https://dvmn.org/).
