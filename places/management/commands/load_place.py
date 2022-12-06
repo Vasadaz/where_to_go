@@ -25,6 +25,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def add_images(place: Place, image_urls: list):
+        if not image_urls:
+            return
+
         for num, image_url in enumerate(image_urls, 1):
             image = Image(
                 position=num,
@@ -36,29 +39,40 @@ class Command(BaseCommand):
 
             image.file.save(
                 name=Path(image_url).name,
-                content=ContentFile(response.content),
+                content=ContentFile(requests.get(image_url).content),
                 save=True
             )
 
     def add_place(self, place_notes: dict):
-        title = place_notes.get('title')
-        latitude = place_notes.get('coordinates').get('lat')
-        longitude = place_notes.get('coordinates').get('lng')
+        if title := place_notes.get('title'):
+            pass
+        else:
+            return self.stdout.write('\033[91mERROR:\033[0m No required key "title"!\n')
 
-        if not title or not longitude or not longitude:
-            return self.stdout.write('\033[91mERROR:\033[0m No required key "title", "longitude" or "longitude".\n')
+        if coordinates := place_notes.get('coordinates'):
+            if latitude := coordinates.get('lat'):
+                pass
+            else:
+                return self.stdout.write('\033[91mERROR:\033[0m No required key "latitude"\n')
+
+            if longitude := coordinates.get('lng'):
+                pass
+            else:
+                return self.stdout.write('\033[91mERROR:\033[0m No required key "longitude"\n')
+        else:
+            return self.stdout.write('\033[91mERROR:\033[0m No required key "coordinates"\n')
 
         place, created = Place.objects.get_or_create(
             title=title,
             latitude=latitude,
             longitude=longitude,
+            defaults={
+                'description_short': place_notes.get('description_short'),
+                'description_long': place_notes.get('description_long'),
+            }
         )
 
         if created:
-            place.description_short = place_notes.get('description_short')
-            place.description_long = place_notes.get('description_long')
-            place.save()
-
             imgs = place_notes.get('imgs')
 
             if imgs:
