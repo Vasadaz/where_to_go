@@ -45,8 +45,8 @@ class Command(BaseCommand):
             latitude=place_notes['coordinates']['lat'],
             longitude=place_notes['coordinates']['lng'],
             defaults={
-                'description_short': place_notes.get('description_short'),
-                'description_long': place_notes.get('description_long'),
+                'description_short': place_notes.get('description_short', ''),
+                'description_long': place_notes.get('description_long', ''),
             }
         )
 
