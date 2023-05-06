@@ -12,7 +12,7 @@
 1. Клонировать репозиторий:
 
     ```shell
-    git clone https://github.com/Vasdaz/where_to_go.git
+    git clone https://github.com/vasadaz/devman_bot.git
     ```
 
 2. Установить зависимости:
